@@ -67,7 +67,7 @@ const Hero = () => {
     }, []);
 
     const handleViewLocation = () => {
-        window.open('https://www.google.com/maps/place/Latte+Global+Cafe/@17.7423334,83.3323055,17z/data=!3m1!4b1!4m6!3m5!1s0x3a394348618b17b5:0x875a6c6e7d8d8d8d!8m2!3d17.7423334!4d83.3348804!16s%2Fg%2F11sbxz9qhf', '_blank');
+        window.open('https://www.google.com/maps/place/Latte+Global+Cafe/@17.7414699,83.3361308,16.79z/data=!4m6!3m5!1s0x3a3945885c239999:0x4beb73f6981b9c37!8m2!3d17.7396831!4d83.3418572!16s%2Fg%2F11vlw_ntkr?entry=ttu&g_ep=EgoyMDI2MDMwMS4xIKXMDSoASAFQAw%3D%3D', '_blank');
     };
 
     return (
