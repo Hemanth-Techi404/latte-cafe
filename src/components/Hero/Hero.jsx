@@ -77,7 +77,7 @@ const Hero = () => {
                 className="hero-bg"
                 ref={bgRef}
                 style={{
-                    backgroundImage: 'url("/hero sectio bg image.png")',
+                    backgroundImage: 'url("/hero_section_bg.png")',
                     opacity: 0
                 }}
             />
