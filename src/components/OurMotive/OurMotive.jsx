@@ -12,53 +12,39 @@ const OurMotive = () => {
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Image parallax
+            // Image reveal with parallax
             gsap.fromTo(imageRef.current,
                 { y: 60, opacity: 0 },
                 {
                     y: 0, opacity: 1, duration: 1.2, ease: 'power3.out',
                     scrollTrigger: {
                         trigger: imageRef.current,
+                        start: 'top 85%',
+                    }
+                }
+            );
+
+            // Text fade in from side/bottom
+            gsap.fromTo(textRef.current,
+                { y: 40, opacity: 0 },
+                {
+                    y: 0, opacity: 1, duration: 1, ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: textRef.current,
                         start: 'top 80%',
                     }
                 }
             );
 
-            // Subtle inner parallax on scroll
-            ScrollTrigger.create({
-                trigger: imageRef.current,
-                start: 'top bottom',
-                end: 'bottom top',
-                onUpdate: (self) => {
-                    if (imageRef.current) {
-                        gsap.set(imageRef.current.querySelector('img'), {
-                            y: self.progress * 30,
-                        });
-                    }
-                }
-            });
-
-            // Text fade in
-            gsap.fromTo(textRef.current,
-                { x: 60, opacity: 0 },
-                {
-                    x: 0, opacity: 1, duration: 1, ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: textRef.current,
-                        start: 'top 75%',
-                    }
-                }
-            );
-
-            // Stats count up
+            // Stats stagger
             statsRef.current.forEach((stat, i) => {
                 if (!stat) return;
                 gsap.fromTo(stat,
-                    { opacity: 0, y: 30 },
+                    { opacity: 0, y: 20 },
                     {
                         opacity: 1, y: 0, duration: 0.6,
                         delay: i * 0.1,
-                        ease: 'power3.out',
+                        ease: 'power2.out',
                         scrollTrigger: {
                             trigger: stat,
                             start: 'top 90%',
@@ -86,17 +72,16 @@ const OurMotive = () => {
                     <img src="/motive_image.png" alt="People enjoying coffee at Latte Global" />
                     <div className="motive-image-badge">
                         Est. 2018
-                        <small>Bangalore, India</small>
+                        <small>Vizag, India</small>
                     </div>
                 </div>
 
                 {/* Text Content */}
-                <div ref={textRef}>
+                <div ref={textRef} className="motive-text-content">
                     <span className="section-tag">Our Motive</span>
                     <h2 className="section-title">
                         Crafted With <em>Passion,</em><br />Served With Love
                     </h2>
-                    <div className="gold-divider" />
                     <p className="section-desc">
                         At Latte Global, we believe coffee is more than a beverage — it's an art form.
                         We source premium single-origin beans, roast them to perfection, and serve them
@@ -114,7 +99,6 @@ const OurMotive = () => {
                                 key={i}
                                 className="motive-stat"
                                 ref={(el) => (statsRef.current[i] = el)}
-                                id={`stat-${i}`}
                             >
                                 <div className="motive-stat-num">{s.num}</div>
                                 <div className="motive-stat-label">{s.label}</div>

@@ -7,63 +7,51 @@ const Hero = () => {
     const heroRef = useRef(null);
     const bgRef = useRef(null);
     const taglineRef = useRef(null);
-    const titleLine1Ref = useRef(null);
-    const titleLine2Ref = useRef(null);
+    const titleRef = useRef(null);
     const subtitleRef = useRef(null);
     const actionsRef = useRef(null);
     const scrollHintRef = useRef(null);
 
     useEffect(() => {
-        const tl = gsap.timeline({ delay: 0.1 });
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({ delay: 0.1 });
 
-        // Background fade-in
-        tl.fromTo(bgRef.current,
-            { opacity: 0, scale: 1.1 },
-            { opacity: 1, scale: 1, duration: 2, ease: 'power2.out' }
-        );
-
-        // Parallax on scroll
-        const handleScroll = () => {
-            if (bgRef.current) {
-                const scroll = window.scrollY;
-                bgRef.current.style.transform = `translateY(${scroll * 0.4}px)`;
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-
-        // Hero entrance animations
-        tl.fromTo(taglineRef.current,
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
-            '-=1.2'
-        )
-            .fromTo(titleLine1Ref.current,
-                { opacity: 0, y: 80, skewY: 4 },
-                { opacity: 1, y: 0, skewY: 0, duration: 1, ease: 'power4.out' },
-                '-=0.8'
-            )
-            .fromTo(titleLine2Ref.current,
-                { opacity: 0, y: 80, skewY: 4 },
-                { opacity: 1, y: 0, skewY: 0, duration: 1, ease: 'power4.out' },
-                '-=0.75'
-            )
-            .fromTo(subtitleRef.current,
-                { opacity: 0, y: 30 },
-                { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-                '-=0.5'
-            )
-            .fromTo(actionsRef.current,
-                { opacity: 0, y: 30 },
-                { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-                '-=0.4'
-            )
-            .fromTo(scrollHintRef.current,
-                { opacity: 0 },
-                { opacity: 1, duration: 0.6, ease: 'power2.out' },
-                '-=0.2'
+            // Background slow zoom animation
+            gsap.fromTo(bgRef.current,
+                { scale: 1.2 },
+                {
+                    scale: 1,
+                    duration: 10,
+                    ease: 'power1.inOut',
+                    repeat: -1,
+                    yoyo: true
+                }
             );
 
-        return () => window.removeEventListener('scroll', handleScroll);
+            // Initial appearance
+            gsap.set([taglineRef.current, titleRef.current, subtitleRef.current, actionsRef.current], {
+                opacity: 0,
+                y: 40
+            });
+
+            tl.to(bgRef.current, { opacity: 1, duration: 1.5 })
+                .to(taglineRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, "-=1")
+                .to(titleRef.current, { opacity: 1, y: 0, duration: 1, ease: 'power4.out' }, "-=0.6")
+                .to(subtitleRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, "-=0.6")
+                .to(actionsRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, "-=0.6")
+                .fromTo(scrollHintRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5 }, "-=0.2");
+
+            // Button pulse animation
+            gsap.to(".btn-pulse", {
+                scale: 1.05,
+                duration: 1,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }, heroRef);
+
+        return () => ctx.revert();
     }, []);
 
     const handleViewLocation = () => {
@@ -72,7 +60,6 @@ const Hero = () => {
 
     return (
         <section className="hero" ref={heroRef} id="hero">
-            {/* Parallax Background */}
             <div
                 className="hero-bg"
                 ref={bgRef}
@@ -83,50 +70,37 @@ const Hero = () => {
             />
             <div className="hero-overlay" />
 
-            {/* Content */}
             <div className="hero-content">
                 <div className="hero-tagline" ref={taglineRef}>
                     Premium Artisan Café
                 </div>
 
-                <h1 className="hero-title">
-                    <div
-                        ref={titleLine1Ref}
-                        style={{ opacity: 0, display: 'block', overflow: 'hidden' }}
-                    >
-                        Experience the
-                    </div>
-                    <div
-                        ref={titleLine2Ref}
-                        style={{ opacity: 0, display: 'block', overflow: 'hidden' }}
-                    >
-                        Taste of <em>Perfect Moments</em>
-                    </div>
+                <h1 className="hero-title" ref={titleRef}>
+                    Experience the <em>Taste of Perfect Moments</em>
                 </h1>
 
-                <p className="hero-subtitle" ref={subtitleRef} style={{ opacity: 0 }}>
+                <p className="hero-subtitle" ref={subtitleRef}>
                     Where every cup tells a story and every bite creates a memory
                 </p>
 
-                <div className="hero-actions" ref={actionsRef} style={{ opacity: 0 }}>
-                    <Link to="/menu" className="btn-primary" id="hero-view-menu">
+                <div className="hero-actions" ref={actionsRef}>
+                    <Link to="/menu" className="btn-primary btn-pulse" id="hero-view-menu">
                         <span>View Menu</span>
                         <FiArrowRight />
                     </Link>
                     <button
-                        className="btn-location"
+                        className="btn-outline"
                         onClick={handleViewLocation}
                         id="hero-view-location"
                     >
-                        <FiMapPin size={14} />
-                        <span>View Location</span>
+                        <FiMapPin />
+                        <span>Book Table</span>
                     </button>
                 </div>
             </div>
 
-            {/* Scroll Hint */}
             <div className="hero-scroll-hint" ref={scrollHintRef}>
-                <span>Scroll</span>
+                <span>Explore</span>
                 <div className="scroll-line" />
             </div>
         </section>

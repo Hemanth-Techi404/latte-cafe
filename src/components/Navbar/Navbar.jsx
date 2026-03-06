@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FiMapPin } from 'react-icons/fi';
-import { HiMenuAlt3, HiX } from 'react-icons/hi';
+import { FiMapPin, FiPhone, FiMessageCircle } from 'react-icons/fi';
 import gsap from 'gsap';
 
 const Navbar = () => {
@@ -9,6 +8,7 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
     const navRef = useRef(null);
+    const mobileLinksRef = useRef([]);
 
     useEffect(() => {
         gsap.fromTo(navRef.current,
@@ -19,7 +19,7 @@ const Navbar = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
+            setScrolled(window.scrollY > 20);
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -27,6 +27,14 @@ const Navbar = () => {
 
     useEffect(() => {
         document.body.style.overflow = menuOpen ? 'hidden' : '';
+
+        if (menuOpen) {
+            // Stagger animate mobile links
+            gsap.fromTo(mobileLinksRef.current,
+                { x: 50, opacity: 0 },
+                { x: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'power3.out', delay: 0.3 }
+            );
+        }
     }, [menuOpen]);
 
     const links = [
@@ -43,9 +51,9 @@ const Navbar = () => {
 
     return (
         <>
-            <nav ref={navRef} className={`navbar ${scrolled ? 'scrolled' : ''}`} id="main-navbar">
+            <nav ref={navRef} className={`navbar ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-is-open' : ''}`} id="main-navbar">
                 {/* Logo */}
-                <Link to="/" className="nav-logo">
+                <Link to="/" className="nav-logo" onClick={() => setMenuOpen(false)}>
                     ☕ Latte <span>Global</span>
                 </Link>
 
@@ -66,13 +74,12 @@ const Navbar = () => {
                 {/* Right CTA */}
                 <div className="nav-cta">
                     <button
-                        id="nav-view-location"
                         className="btn-location"
                         onClick={handleLocationClick}
                         aria-label="View Location"
                     >
-                        <FiMapPin size={14} />
-                        <span>View Location</span>
+                        <FiMapPin size={18} />
+                        <span>Vizag</span>
                     </button>
 
                     {/* Hamburger */}
@@ -90,32 +97,46 @@ const Navbar = () => {
                 </div>
             </nav>
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu Overlay */}
             <div className={`mobile-menu ${menuOpen ? 'open' : ''}`} id="mobile-menu">
-                <button
-                    style={{
-                        position: 'absolute', top: '2rem', right: '2rem',
-                        background: 'none', border: 'none', color: 'var(--cream-white)',
-                        fontSize: '1.8rem', cursor: 'pointer'
-                    }}
-                    onClick={() => setMenuOpen(false)}
-                >
-                    <HiX />
-                </button>
-                {links.map((link) => (
-                    <Link
-                        key={link.to}
-                        to={link.to}
-                        onClick={() => setMenuOpen(false)}
-                        style={{ fontStyle: location.pathname === link.to ? 'italic' : 'normal' }}
-                    >
-                        {link.label}
-                    </Link>
-                ))}
-                <button className="btn-primary" onClick={handleLocationClick}>
-                    <FiMapPin />
-                    <span>View Location</span>
-                </button>
+                <div className="mobile-menu-links">
+                    {links.map((link, i) => (
+                        <Link
+                            key={link.to}
+                            to={link.to}
+                            className={location.pathname === link.to ? 'active' : ''}
+                            onClick={() => setMenuOpen(false)}
+                            ref={el => mobileLinksRef.current[i] = el}
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
+                </div>
+
+                <div className="mobile-menu-actions">
+                    <button className="btn-primary" onClick={handleLocationClick} style={{ width: '250px' }}>
+                        <FiMapPin />
+                        <span>Find Us</span>
+                    </button>
+                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', justifyContent: 'center' }}>
+                        <a href="tel:+918912754444" className="social-icon" style={{ width: '50px', height: '50px', fontSize: '1.2rem' }}>
+                            <FiPhone />
+                        </a>
+                        <a href="https://wa.me/918912754444" className="social-icon" style={{ width: '50px', height: '50px', fontSize: '1.2rem', color: '#25D366' }}>
+                            <FiMessageCircle />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {/* Floating Action Button (FAB) for conversions */}
+            <div className="fab-container">
+                <a href="https://wa.me/918912754444" className="fab" aria-label="WhatsApp Us">
+                    <FiMessageCircle />
+                </a>
+                <a href="tel:+918912754444" className="fab call" aria-label="Call Us">
+                    <FiPhone />
+                </a>
             </div>
         </>
     );

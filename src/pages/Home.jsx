@@ -2,9 +2,8 @@ import React from 'react';
 import Hero from '../components/Hero/Hero';
 import QuoteSection from '../components/QuoteSection/QuoteSection';
 import OurMotive from '../components/OurMotive/OurMotive';
+import MenuPreview from '../components/MenuPreview/MenuPreview';
 import Reviews from '../components/Reviews/Reviews';
-import CoffeeMenuPreview from '../components/CoffeeMenuPreview/CoffeeMenuPreview';
-import SnacksMenuPreview from '../components/SnacksMenuPreview/SnacksMenuPreview';
 import ContactSection from '../components/ContactSection/ContactSection';
 import Footer from '../components/Footer/Footer';
 
@@ -14,9 +13,8 @@ const Home = () => {
             <Hero />
             <QuoteSection />
             <OurMotive />
+            <MenuPreview />
             <Reviews />
-            <CoffeeMenuPreview />
-            <SnacksMenuPreview />
             <ContactSection />
             <Footer />
         </main>

@@ -29,14 +29,14 @@ const QuoteSection = () => {
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Heading split text reveal
+            // Heading reveal
             gsap.fromTo(headingRef.current,
-                { opacity: 0, y: 60 },
+                { opacity: 0, y: 50 },
                 {
                     opacity: 1, y: 0, duration: 1, ease: 'power3.out',
                     scrollTrigger: {
                         trigger: headingRef.current,
-                        start: 'top 80%',
+                        start: 'top 85%',
                     }
                 }
             );
@@ -45,15 +45,14 @@ const QuoteSection = () => {
             cardsRef.current.forEach((card, i) => {
                 if (!card) return;
                 gsap.fromTo(card,
-                    { opacity: 0, y: 70 },
+                    { opacity: 0, scale: 0.95, y: 30 },
                     {
-                        opacity: 1, y: 0,
+                        opacity: 1, scale: 1, y: 0,
                         duration: 0.8,
-                        ease: 'power3.out',
-                        delay: i * 0.15,
+                        ease: 'power2.out',
                         scrollTrigger: {
                             trigger: card,
-                            start: 'top 85%',
+                            start: 'top 90%',
                         }
                     }
                 );
@@ -65,7 +64,7 @@ const QuoteSection = () => {
 
     return (
         <section className="quote-section" ref={sectionRef} id="quote-section">
-            <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <div className="reviews-container">
                 <h2 className="quote-heading" ref={headingRef}>
                     Be Ready for the <em>Best Moments</em>
                 </h2>
@@ -74,7 +73,6 @@ const QuoteSection = () => {
                     {cards.map((card, i) => (
                         <div
                             key={i}
-                            id={`feature-card-${i}`}
                             className="feature-card"
                             ref={(el) => (cardsRef.current[i] = el)}
                         >
