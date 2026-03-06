@@ -79,7 +79,7 @@ const Navbar = () => {
                         aria-label="View Location"
                     >
                         <FiMapPin size={18} />
-                        <span>Vizag</span>
+                        <span>Our Location</span>
                     </button>
 
                     {/* Hamburger */}

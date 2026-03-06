@@ -90,16 +90,50 @@ const ContactSection = () => {
                 {/* Right: Map & Message */}
                 <div ref={rightRef}>
                     <div className="map-container" id="map-container">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m18!1m12!1m18!1m12!1m3!1d15201.238474272224!2d83.3361308!3d17.7414699!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3945885c239999%3A0x4beb73f6981b9c37!2sLatte%20Global%20Cafe!5e0!3m2!1sen!2sin!4v1709723232323!5m2!1sen!2sin"
-                            width="100%"
-                            height="100%"
-                            style={{ border: 0 }}
-                            allowFullScreen=""
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                            title="Latte Global Location"
-                        ></iframe>
+                        <div className="map-preview-card" style={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: 'linear-gradient(rgba(28, 14, 8, 0.6), rgba(28, 14, 8, 0.6)), url("/map_static.png")',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            textAlign: 'center',
+                            padding: '2rem'
+                        }}>
+                            <div className="map-icon-pulse" style={{
+                                width: '60px',
+                                height: '60px',
+                                background: 'var(--gold-accent)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'var(--dark-brown)',
+                                fontSize: '1.5rem',
+                                marginBottom: '1.5rem',
+                                boxShadow: '0 0 30px rgba(203, 161, 53, 0.4)'
+                            }}>
+                                <FiMapPin />
+                            </div>
+                            <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--cream-white)', fontSize: '1.25rem', marginBottom: '0.5rem' }}>
+                                Find Us in Vizag
+                            </h3>
+                            <p style={{ fontSize: '0.85rem', color: 'rgba(245, 243, 239, 0.8)', marginBottom: '1.5rem', maxWidth: '250px' }}>
+                                MVP Double Road, Sector 10, MVP Colony, Visakhapatnam
+                            </p>
+                            <a
+                                href="https://www.google.com/maps/place/Latte+Global+Cafe/@17.7414699,83.3361308,16.79z/data=!4m6!3m5!1s0x3a3945885c239999:0x4beb73f6981b9c37!8m2!3d17.7396831!4d83.3418572!16s%2Fg%2F11vlw_ntkr?entry=ttu"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="btn-primary"
+                                style={{ minHeight: '44px', padding: '0.5rem 1.5rem' }}
+                            >
+                                <span>Get Directions</span>
+                            </a>
+                        </div>
                     </div>
 
                     <div className="contact-form-card" style={{
